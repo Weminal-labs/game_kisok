@@ -1,0 +1,102 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+.card {
+  background-color: #f6f6f6;
+  border-radius: 8px;
+  margin: 8px;
+  cursor: pointer;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc;
+  box-shadow: 0 0 6px #ccc;
+}
+
+.card:hover {
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc;
+  box-shadow: 0 0 12px #ccc;
+}
+
+.card_info {
+  display: block;
+  font-weight: 600;
+  text-align: left;
+}
+
+.place_wrapper {
+  width: 1200px;
+  min-height: 200px;
+  height: fit-content;
+  display: flex;
+  justify-content: left;
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+
+}
+
+.btn_buy {
+  background-color: #121619;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  border: none;
+  margin: 0;
+  border-radius: 8px;
+}
+
+.btn_buy:hover {
+
+  box-shadow: 0 0 3px #00000080;
+}
+
+.label {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 24px 0;
+  text-align: left;
+  display: block;
+}
