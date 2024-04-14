@@ -11,7 +11,7 @@ import { KioskClient, KioskTransaction, Network } from '@mysten/kiosk';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui.js/client';
 import { get_kiosk_items, get_object, list_item } from '../controller/rpc-client';
  
-function SignButton() {
+function Footer() {
 	const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
 	const [digest, setDigest] = useState('');
 	const currentAccount = useCurrentAccount();
@@ -54,25 +54,6 @@ function SignButton() {
             },
         })
   }
-  const handle_data = () =>{
-    setPlaceItems([])
-    setListItems([])
-    get_kiosk_items()
-        .then(res => {
-            let list_data = res.map(item => {
-                get_object(`${item?.objectId}`)
-                .then(obj => {
-                    if(item.listing) {
-                        let new_obj = obj
-                        obj.price = item.listing.price
-                        setListItems(prev => [...prev, new_obj])
-                    }else {
-                        setPlaceItems(prev => [...prev, obj])
-                    }
-                })
-            })
-        })
-  }
 
 
   //sign
@@ -82,18 +63,11 @@ function SignButton() {
 			{currentAccount && (
 				<>
 					<div>
-						<button
-							onClick={() =>
-                                delist_item('0x427b2b591d1bfaed99d50981de248bb6819391d7b399177700e8ed7cc09786dd')
-                            }
-						>
-							Sign
-						</button>
+						<span>Version: 1.0</span>
 					</div>
-					<div>Digest: {digest}</div>
 				</>
 			)}
 		</div>
 	);
 }
-export default SignButton
+export default Footer

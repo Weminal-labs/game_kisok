@@ -7,10 +7,10 @@ import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { fromHEX } from '@mysten/sui.js/utils';
 
 
-const OWNER_ADDRESS = "0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d"
-const ITEM_TYPE = "0x4f8a43ebdbce05b2fb2afc3918fa1d5a096193f758fafaa275e71161ccafa587::game::Hero"
+export const OWNER_ADDRESS = "0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d"
+export const ITEM_TYPE = "0x4f8a43ebdbce05b2fb2afc3918fa1d5a096193f758fafaa275e71161ccafa587::game::Hero"
 const Ticket_type = "0xe65c1061ebe6d0fe91619d5968d8a5d6fb192314de824cad5cd05becbd70403f::event::Ticket"
-const private_key = "e9dba25e2c1999461f8cf27cf137d4218c9bc1fb425ea7c36a19b92cec0efe3b"
+export const private_key = "e9dba25e2c1999461f8cf27cf137d4218c9bc1fb425ea7c36a19b92cec0efe3b"
 const rpcUrl = getFullnodeUrl('testnet'); 
 const client = new SuiClient({ url: rpcUrl });
 
@@ -81,8 +81,15 @@ export const get_object = async (id: string): Promise<any> => {
         // fetch the object content field
         options: { showContent: true },
     });
-    console.log(txn)
     return txn.data?.content
+
+}
+
+export const get_objects = async (address: string): Promise<any> => {
+    const txn = await client.getOwnedObjects({
+        owner: address
+    });
+    return txn
 
 }
 

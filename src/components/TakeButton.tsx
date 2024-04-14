@@ -1,13 +1,15 @@
-import { useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
+import { useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
 import { KioskClient, KioskItem, KioskTransaction, Network } from '@mysten/kiosk';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { OWNER_ADDRESS } from '../controller/rpc-client';
 type Props = {
     itemId: string,
     itemType: string,
+    children: React.ReactNode
 }
-function TakeButton({itemId, itemType}: Props) {
-    const OWNER_ADDRESS = "0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d"
+function TakeButton({itemId, itemType, children}: Props) {
+    const currentAccount = useCurrentAccount()
     const rpcUrl = getFullnodeUrl('testnet'); 
     const client = new SuiClient({ url: rpcUrl });
     const kioskClient = new KioskClient({
@@ -24,7 +26,7 @@ function TakeButton({itemId, itemType}: Props) {
                 itemType: itemType,
                 itemId: itemId,
             });
-            txb.transferObjects([item], '0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d');
+            txb.transferObjects([item], currentAccount?.address||'0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d');
             kioskTx.finalize();
             signAndExecuteTransactionBlock(
                 {
@@ -37,16 +39,17 @@ function TakeButton({itemId, itemType}: Props) {
                     },
                 })
     }
-    return  <div>
-        <button onClick={() => {
+    return <>
+    <div onClick={() => {
             take_item(itemType, itemId)
             .then(res => {
                 console.log('called')
             })
         }}>
-            Take Item
-        </button>
-    </div>
+            {children}
+        </div>
+        </>
+        
 }
 
 export default TakeButton

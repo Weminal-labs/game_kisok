@@ -3,14 +3,6 @@ import styles from "./NftCard.module.css"
 import { useState, useRef } from 'react';
 import Popover from 'react-bootstrap/Popover';
 
-const popover = (
-    <Popover id="popover-basic" className={clsx(styles.modalWrapper)}>
-      <Popover.Body>
-        <span className={clsx(styles.optionButton)}>Send to store</span>
-         <span className={clsx(styles.optionButton)}>Post for sell</span>
-      </Popover.Body>
-    </Popover>
-  );
 
 function NftCard() {
     const [show, setShow] = useState(false);

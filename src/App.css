@@ -3,8 +3,13 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
 }
 
+
+body::-webkit-scrollbar {
+  display: none;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -42,9 +47,21 @@
 }
 .dv {
   background-color: aquamarine;
+
 }
 
+.heading {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
 
+}
+
+.headingTitle {
+  font-size: 24px;
+  font-weight: 700;
+}
 .card {
   background-color: #f6f6f6;
   border-radius: 8px;
@@ -78,6 +95,7 @@
   border-radius: 8px;
   background-color: #f6f6f6;
   flex-wrap: wrap;
+  margin-bottom: 48px;
 
 }
 
@@ -96,6 +114,27 @@
 
   box-shadow: 0 0 3px #00000080;
 }
+.titleField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btnReload {
+  width: 32px;
+  height: 32px;
+  outline: none;
+}
+
+.btnReload:hover {
+  border: none;
+}
+
+.imgReload {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
 
 .label {
   font-size: 24px;
@@ -106,7 +145,7 @@
 }
 
 .wrapper {
-  display: flex;
+  /* display: flex; */
   
 }
 

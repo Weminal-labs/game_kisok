@@ -1,5 +1,5 @@
 .wrapper {
-    min-width: 340px;
+    width: 340px;
     box-shadow: 0 4px 10px #00000080;
     border-radius: 8px;
     border-top-right-radius: 0;
@@ -13,6 +13,7 @@
     overflow-y: scroll;
     animation-name: example;
     animation-duration: .6s;
+    background-color: #fff;
 }
 
 .heading {
