@@ -15,7 +15,10 @@
     "@mysten/sui.js": "^0.51.2",
     "@tanstack/react-query": "^5.29.2",
     "axios": "^1.6.8",
+    "bootstrap": "^5.3.3",
+    "clsx": "^2.1.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {

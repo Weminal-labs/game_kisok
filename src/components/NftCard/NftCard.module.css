@@ -1,0 +1,87 @@
+.wrapper {
+    width: 142px;
+    height: 186px;
+    border-radius: 8px;
+    padding: 6px;
+    border: solid .2px #8383833f;
+    margin: 6px;
+    position: relative;
+}
+
+.name {
+    color: #111322;
+    font-size: 14px;
+    display: block;
+    font-weight: 600;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.description {
+    color: #b9c0d4;
+    font-size: 12px;
+    display: block;
+    font-weight: 600;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+}
+
+.image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: none;
+}
+
+.contentWrapper {
+    padding-left: 4px;
+}
+
+.optionButton {
+    font-weight: 500;
+    width: 100%;
+    display: block;
+    height: 32px;
+    /* padding: 6px; */
+    cursor: pointer;
+    padding: 6px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.optionButton:hover {
+    background-color: rgba(58, 58, 58, 0.671);
+
+}
+
+.btn {
+    padding: 0;
+    outline: none;
+}
+
+.btn:hover {
+    outline: none;
+}
+.btn:focus  {
+    outline: none;
+}
+
+.modalWrapper {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #c7c7c7e1;
+    width: fit-content;
+    /* width: fit-content; */
+    z-index: 999;
+    border: none;
+    overflow: hidden;
+    top: 12px;
+    left: 12px;
+}

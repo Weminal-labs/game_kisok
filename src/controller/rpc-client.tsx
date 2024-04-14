@@ -9,10 +9,10 @@ import { fromHEX } from '@mysten/sui.js/utils';
 
 const OWNER_ADDRESS = "0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d"
 const ITEM_TYPE = "0x4f8a43ebdbce05b2fb2afc3918fa1d5a096193f758fafaa275e71161ccafa587::game::Hero"
+const Ticket_type = "0xe65c1061ebe6d0fe91619d5968d8a5d6fb192314de824cad5cd05becbd70403f::event::Ticket"
 const private_key = "e9dba25e2c1999461f8cf27cf137d4218c9bc1fb425ea7c36a19b92cec0efe3b"
 const rpcUrl = getFullnodeUrl('testnet'); 
 const client = new SuiClient({ url: rpcUrl });
-
 
 //sign 
 
@@ -45,15 +45,15 @@ export const create_kisok = async () => {
         console.log(result);
 }
 
-export const get_owner_key_cap = async () => {
+export const place_item = async (): Promise<any> => {
 
     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
     const txb = new TransactionBlock();
     const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
     kioskTx
         .place({
-            itemType: ITEM_TYPE,
-            item: '0x427b2b591d1bfaed99d50981de248bb6819391d7b399177700e8ed7cc09786dd',
+            itemType: Ticket_type,
+            item: '0x8ec94f051b5e288f3ae979782b51dbba7fc15b864fd7d5c96004a5837bd98b7a',
         });
         kioskTx.finalize();
        let result = await client.signAndExecuteTransactionBlock({
@@ -72,7 +72,6 @@ export const get_kiosk_items = async (): Promise<KioskItem[]> => {
             withListingPrices: true, // This flag enables / disables the fetching of the listing prices.
         }
     });
-    console.log(res.items);
     return res.items;
 }
 
@@ -82,17 +81,18 @@ export const get_object = async (id: string): Promise<any> => {
         // fetch the object content field
         options: { showContent: true },
     });
+    console.log(txn)
     return txn.data?.content
 
 }
 
-export const list_item = async (itemId: string): Promise<any> => {
+export const list_item = async (itemId: string, itemType: string): Promise<any> => {
     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
     const txb = new TransactionBlock();
     const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
     kioskTx
         .list({
-            itemType: ITEM_TYPE,
+            itemType: itemType,
             itemId: itemId,
             price: BigInt(1000000000)
         });
@@ -103,13 +103,15 @@ export const list_item = async (itemId: string): Promise<any> => {
         return result
 }
 
-export const delist_item = async (itemId: string): Promise<any> => {
+export const delist_item = async (itemId: string, itemType: string): Promise<any> => {
+    console.log(`item === ${itemType} ${itemId}`)
+
     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
     const txb = new TransactionBlock();
     const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
     kioskTx
         .delist({
-            itemType: ITEM_TYPE,
+            itemType: itemType,
             itemId: itemId,
         });
         kioskTx.finalize();
@@ -118,5 +120,34 @@ export const delist_item = async (itemId: string): Promise<any> => {
         transactionBlock: txb});
         return result;
 }
+
+// export const take_item = async (itemType: string, itemId: string): Promise<any> => {
+//     const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
+//     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
+//     const txb = new TransactionBlock();
+//     console.log(itemType, itemId)
+//     const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+//     const item = kioskTx
+//         .take({
+//             itemType: itemType,
+//             itemId: itemId,
+//         });
+//         txb.transferObjects([item], '0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d');
+//         kioskTx.finalize();
+//         signAndExecuteTransactionBlock(
+//             {
+//                 transactionBlock: txb,
+//                 chain: 'sui:testnet',
+//             },
+//             {
+//                 onSuccess: (result) => {
+//                     console.log('executed transaction block', result);
+//                 },
+//             })
+//     //    let result = await client.signAndExecuteTransactionBlock({
+//     //     signer: keypair,
+//     //     transactionBlock: txb});
+//     //     return result;
+// }
 
 //kiosk -> list objectID -> backend -> object data

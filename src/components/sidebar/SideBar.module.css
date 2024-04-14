@@ -1,0 +1,50 @@
+.wrapper {
+    min-width: 340px;
+    box-shadow: 0 4px 10px #00000080;
+    border-radius: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: fixed;
+    top: 120px;
+    right: 0;
+    bottom: 80px;
+    z-index: 11;
+    padding: 12px 24px;
+    overflow-y: scroll;
+    animation-name: example;
+    animation-duration: .6s;
+}
+
+.heading {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    padding: 12px 0;
+
+}
+
+.heading_2 {
+    text-align: left;
+    color: #b9c0d4;
+    display: block;
+    overflow: hidden;
+}
+
+.container {
+    border-radius: 8px;
+    width: 100%;
+    height: max-content;
+    padding: 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -6px;
+}
+.wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes example {
+    from {margin-right: -320px;}
+    to {margin-right: 0;}
+  }
