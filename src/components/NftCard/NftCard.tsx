@@ -26,7 +26,6 @@ function NftCard({isListing, isPlace, data}: Props) {
     const invisible = () => setVisible(false)
 
     const currentAccount = useCurrentAccount()
-    // console.log(data, currentAccount?.address)
     return <>
         
 

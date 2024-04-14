@@ -1,7 +1,6 @@
 import clsx from "clsx"
 import styles from "./NftCard.module.css"
 import { useState, useRef } from 'react';
-import Popover from 'react-bootstrap/Popover';
 
 
 function NftCard() {
