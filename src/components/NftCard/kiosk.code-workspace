@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../oracle_backend_typescript"
+		}
+	],
+	"settings": {}
+}

@@ -4,7 +4,7 @@ import { SuiClient, getFullnodeUrl } from "@mysten/sui.js/client";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { fromHEX } from "@mysten/sui.js/utils";
-import { OWNER_ADDRESS, private_key } from "../controller/rpc-client";
+import { OWNER_ADDRESS, CHAIN, client, PRIVATE_KEY, KIOSK_INDEX } from "../data/initData";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 type Props = {
@@ -14,8 +14,6 @@ type Props = {
 
 function ListITemButton({data, children}: Props) {
     const currentAccount = useCurrentAccount()
-    const rpcUrl = getFullnodeUrl('testnet'); 
-    const client = new SuiClient({ url: rpcUrl });
     const [enable, setEnable] = useState(false)
     const [digest, setDigest] = useState("")
     const [popup, setPopup] = useState(false)
@@ -30,14 +28,14 @@ function ListITemButton({data, children}: Props) {
     let keypair = new Ed25519Keypair();
 
 
-    keypair = Ed25519Keypair.fromSecretKey(fromHEX(private_key));
+    keypair = Ed25519Keypair.fromSecretKey(fromHEX(PRIVATE_KEY));
     //send to owner
     const send_item = async (itemId: string, itemType: string, price: bigint): Promise<any> => {
         txb.transferObjects([txb.object(itemId)], OWNER_ADDRESS);
         signAndExecuteTransactionBlock(
             {
                 transactionBlock: txb,
-                chain: 'sui:testnet',
+                chain: CHAIN,
             },
             {
                 onSuccess: (result) => {
@@ -54,7 +52,7 @@ function ListITemButton({data, children}: Props) {
     }
     const list_item = async (itemId: string, itemType: string, price: bigint) => {
         const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
-        const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+        const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[KIOSK_INDEX] });
         kioskTx
         .placeAndList({
             itemType: itemType,
@@ -62,10 +60,11 @@ function ListITemButton({data, children}: Props) {
             price: price
         });
         kioskTx.finalize();
+        
         signAndExecuteTransactionBlock(
             {
                 transactionBlock: txb,
-                chain: 'sui:testnet',
+                chain: CHAIN,
             },
             {
                 onSuccess: (result) => {
@@ -76,7 +75,7 @@ function ListITemButton({data, children}: Props) {
                     setEnable(false);
                     console.log('err transaction block', err);
                 }
-            })
+        })
     }
     return <span onClick={()=> setPopup(true)} >
         {children}

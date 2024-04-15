@@ -65,5 +65,4 @@ function NftCard({isListing, isPlace, data}: Props) {
     </>
 }
 
-
 export default NftCard

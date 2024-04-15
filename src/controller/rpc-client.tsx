@@ -5,28 +5,21 @@ import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { fromHEX } from '@mysten/sui.js/utils';
+import { PRIVATE_KEY, OWNER_ADDRESS, client, KIOSK_INDEX } from '../data/initData';
 
 
-export const OWNER_ADDRESS = "0x8d9f68271c525e6a35d75bc7afb552db1bf2f44bb65e860b356e08187cb9fa3d"
-export const ITEM_TYPE = "0x4f8a43ebdbce05b2fb2afc3918fa1d5a096193f758fafaa275e71161ccafa587::game::Hero"
-const Ticket_type = "0xe65c1061ebe6d0fe91619d5968d8a5d6fb192314de824cad5cd05becbd70403f::event::Ticket"
-export const private_key = "e9dba25e2c1999461f8cf27cf137d4218c9bc1fb425ea7c36a19b92cec0efe3b"
-const rpcUrl = getFullnodeUrl('testnet'); 
-const client = new SuiClient({ url: rpcUrl });
+
 
 //sign 
 
 let keypair = new Ed25519Keypair();
-keypair = Ed25519Keypair.fromSecretKey(fromHEX(private_key));
+keypair = Ed25519Keypair.fromSecretKey(fromHEX(PRIVATE_KEY));
 
 const kioskClient = new KioskClient({
     client,
     network: Network.TESTNET,
 });
 export const create_kisok = async () => {
-
-
-
     const txb = new TransactionBlock();
     const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient });
     kioskTx.create();
@@ -45,26 +38,10 @@ export const create_kisok = async () => {
         console.log(result);
 }
 
-export const place_item = async (): Promise<any> => {
-
-    const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
-    const txb = new TransactionBlock();
-    const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
-    kioskTx
-        .place({
-            itemType: Ticket_type,
-            item: '0x8ec94f051b5e288f3ae979782b51dbba7fc15b864fd7d5c96004a5837bd98b7a',
-        });
-        kioskTx.finalize();
-       let result = await client.signAndExecuteTransactionBlock({
-        signer: keypair,
-        transactionBlock: txb});
-        // console.log(kioskTx);
-}
 
 export const get_kiosk_items = async (): Promise<KioskItem[]> => {
     const kiosk = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
-    const kiosk_id = kiosk.kioskIds[0]
+    const kiosk_id = kiosk.kioskIds[KIOSK_INDEX]
     const res = await kioskClient.getKiosk({
         id: kiosk_id,
         options: {
@@ -96,7 +73,7 @@ export const get_objects = async (address: string): Promise<any> => {
 export const list_item = async (itemId: string, itemType: string): Promise<any> => {
     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
     const txb = new TransactionBlock();
-    const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+    const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[KIOSK_INDEX] });
     kioskTx
         .list({
             itemType: itemType,
@@ -115,7 +92,7 @@ export const delist_item = async (itemId: string, itemType: string): Promise<any
 
     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
     const txb = new TransactionBlock();
-    const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+    const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[KIOSK_INDEX] });
     kioskTx
         .delist({
             itemType: itemType,
@@ -128,6 +105,8 @@ export const delist_item = async (itemId: string, itemType: string): Promise<any
         return result;
 }
 
+
+export { OWNER_ADDRESS };
 // export const take_item = async (itemType: string, itemId: string): Promise<any> => {
 //     const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
 //     const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});

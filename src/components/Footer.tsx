@@ -10,7 +10,7 @@ import './../App.css'
 import { KioskClient, KioskTransaction, Network } from '@mysten/kiosk';
 import { SuiClient, getFullnodeUrl } from '@mysten/sui.js/client';
 import { get_kiosk_items, get_object, list_item } from '../controller/rpc-client';
- 
+ import { KIOSK_INDEX } from '../data/initData';
 function Footer() {
 	const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
 	const [digest, setDigest] = useState('');
@@ -35,7 +35,7 @@ function Footer() {
   const delist_item = async (itemId: string) => {
       const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
       const txb = new TransactionBlock();
-      const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+      const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[KIOSK_INDEX] });
       kioskTx
           .delist({
               itemType: ITEM_TYPE,

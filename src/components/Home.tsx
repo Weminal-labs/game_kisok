@@ -7,7 +7,6 @@ import {
 } from '@mysten/dapp-kit';
 import { 
   create_kisok, 
-  place_item, 
   get_kiosk_items, 
   get_object, 
   list_item, 
@@ -21,15 +20,12 @@ import reloadIcon from './../assets/reload.png'
 function Home() {
   const [placeItems, setPlaceItems] = useState<any[]>([])
   const [listItems, setListItems] = useState<any[]>([])
-  const [input, setInput] = useState("");
   const [itemTypes, setItemTypes] = useState("")
   const [itemId, setItemId] = useState("")  
-  const [price, setPrice] = useState(0n)
   const [show, setShow] = useState (false)
   const [userItems, setUserItems] = useState<any>([])
   
   //sign
-const OBJECT_TYPE = '0xd8921f5ef54dc17694f53183c2458ca416578ec0e264d9065423fc6addbf7d9e::game::Hero'
   const currentAccount = useCurrentAccount();
   const [reload, setReload]  = useState(false)
   useEffect(() => { 
@@ -52,7 +48,8 @@ const OBJECT_TYPE = '0xd8921f5ef54dc17694f53183c2458ca416578ec0e264d9065423fc6ad
         res.data.forEach((element: any) => {
           get_object(element.data.objectId)
           .then((obj_data) => {
-            if(obj_data?.type == OBJECT_TYPE){
+            let typeStr = obj_data?.type+""
+            if(typeStr.split("::")[2] == 'Hero'){
               setUserItems((prev: any) => [...prev, obj_data])
             }
           })
@@ -71,7 +68,8 @@ const OBJECT_TYPE = '0xd8921f5ef54dc17694f53183c2458ca416578ec0e264d9065423fc6ad
         let list_data = res.map(item => {
             get_object(`${item?.objectId}`)
             .then(obj => {
-            if(obj.type == OBJECT_TYPE) {
+              let typeStr = obj?.type+""
+            if(typeStr.split("::")[2] == 'Hero') {
               if(item.listing) {
                   let new_obj = obj
                   obj.price = item.listing.price

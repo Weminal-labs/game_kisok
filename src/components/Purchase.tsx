@@ -4,8 +4,7 @@ import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { fromHEX } from '@mysten/sui.js/utils';
-import { useState } from 'react';
-import { OWNER_ADDRESS, private_key } from '../controller/rpc-client';
+import { OWNER_ADDRESS, PRIVATE_KEY, CHAIN, client , KIOSK_INDEX} from '../data/initData';
 type ItemProps = {
     itemType: string,
     itemId: string,
@@ -17,11 +16,8 @@ type ItemProps = {
 function Purchase({itemType,itemId,price, children, callback}: ItemProps) {
     const currentAccount = useCurrentAccount()
     console.log(itemType,itemId,price)
-    const rpcUrl = getFullnodeUrl('testnet'); 
-    const client = new SuiClient({ url: rpcUrl });
     let keypair = new Ed25519Keypair();
-    keypair = Ed25519Keypair.fromSecretKey(fromHEX(private_key));
-    
+    keypair = Ed25519Keypair.fromSecretKey(fromHEX(PRIVATE_KEY));
     const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
     const txb = new TransactionBlock();
     const purchase_item = async (itemType: string, itemId: string, price: bigint): Promise<any> => {
@@ -30,7 +26,7 @@ function Purchase({itemType,itemId,price, children, callback}: ItemProps) {
         signAndExecuteTransactionBlock(
         {
             transactionBlock: txb,
-            chain: 'sui:testnet',
+            chain: CHAIN,
         },
         {
             onSuccess: (result) => {
@@ -45,7 +41,7 @@ function Purchase({itemType,itemId,price, children, callback}: ItemProps) {
             network: Network.TESTNET,
         });
         const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: OWNER_ADDRESS});
-        const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[0] });
+        const kioskTx = new KioskTransaction({ transactionBlock: txb, kioskClient, cap: kioskOwnerCaps[KIOSK_INDEX] });
         kioskTx
         .transfer({
             itemId: itemId,

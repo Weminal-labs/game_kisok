@@ -4,7 +4,7 @@ import { SuiClient, getFullnodeUrl } from "@mysten/sui.js/client";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { fromHEX } from "@mysten/sui.js/utils";
-import { private_key, OWNER_ADDRESS } from "../../controller/rpc-client";
+import { PRIVATE_KEY } from "../../data/initData";
 import clsx from "clsx";
 type Props = {
     data: any,
@@ -23,7 +23,7 @@ function PlaceButton({data, children}: Props) {
     const { mutate: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
     const txb = new TransactionBlock();
     let keypair = new Ed25519Keypair();
-    keypair = Ed25519Keypair.fromSecretKey(fromHEX(private_key));
+    keypair = Ed25519Keypair.fromSecretKey(fromHEX(PRIVATE_KEY));
 
     const place_item = async (itemId: string, itemType: string) => {
         const { kioskOwnerCaps } = await kioskClient.getOwnedKiosks({ address: currentAccount?.address||""});
